@@ -15,14 +15,14 @@ ActiveRecord::Schema.define(version: 20200519020230) do
 
   create_table "collections", force: :cascade do |t|
     t.string   "name"
-    t.text     "discription"
+    t.text     "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
   create_table "items", force: :cascade do |t|
     t.string   "name"
-    t.text     "discription"
+    t.text     "description"
     t.string   "condition"
     t.float    "price"
     t.datetime "created_at",  null: false
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20200519020230) do
   create_table "users", force: :cascade do |t|
     t.string   "username"
     t.string   "password_digest"
-    t.text     "discription"
+    t.text     "description"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end

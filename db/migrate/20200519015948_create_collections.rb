@@ -2,7 +2,7 @@ class CreateCollections < ActiveRecord::Migration
   def change
     create_table :collections do |t|
       t.string :name
-      t.text :discription
+      t.text :description
 
       t.timestamps null: false
     end
