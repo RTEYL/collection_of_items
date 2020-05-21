@@ -12,7 +12,12 @@ class UsersController < ApplicationController
 
   # GET: /users/new
   get "/users/login" do
-    erb :"/users/login.html"
+    if logged_in?
+      flash[:error] = "User already logged in."
+      redirect '/users'
+    else
+      erb :"/users/login.html"
+    end
   end
 
   post '/users/login' do
@@ -21,12 +26,18 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect "/users/#{user.id}"
     else
-    "Invalid login credentials"
+    flash[:auth_error] = "Invalid credentials"
+    redirect '/users/login'
     end
   end
 
   get '/users/signup' do
-    erb :"/users/signup.html"
+    if logged_in?
+      flash[:error] = "User already logged in."
+      redirect '/users'
+    else
+      erb :"/users/signup.html"
+    end
   end
 
   # POST: /users
@@ -36,7 +47,7 @@ class UsersController < ApplicationController
       user.save
       redirect "/users/login"
     else
-      "#{user.errors.messages}"
+      # flash[:]
     end
   end
 
@@ -68,15 +79,5 @@ class UsersController < ApplicationController
   post '/users/logout' do
     session.clear
     redirect '/users'
-  end
-
-  helpers do
-    def logged_in?
-      !!session["user_id"]
-    end
-
-    def current_user
-      User.find(session["user_id"])
-    end
   end
 end

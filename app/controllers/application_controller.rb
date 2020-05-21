@@ -1,4 +1,5 @@
 require './config/environment'
+require 'sinatra/flash'
 
 class ApplicationController < Sinatra::Base
 
@@ -7,10 +8,21 @@ class ApplicationController < Sinatra::Base
     set :views, 'app/views'
     enable :sessions
     set :session_secret, 'asdfasdfghjghj6'
+    register Sinatra::Flash
   end
 
   get "/" do
     erb :"/users/index.html"
+  end
+
+  helpers do
+    def logged_in?
+      !!session["user_id"]
+    end
+
+    def current_user
+      User.find(session["user_id"])
+    end
   end
 
 end
