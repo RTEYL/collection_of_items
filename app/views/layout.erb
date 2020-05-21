@@ -26,7 +26,15 @@
   </div>
     <div class="wrapper">
 
-        <%= yield %>
+      <% if flash[:message] %>
+        <div class="flash_message" style="color:red;">
+          <% flash.each do |m,err| %>
+            <%= "#{err}"%>
+            <%end%>
+        </div>
+      <% end %>
+
+      <%= yield %>
 
       <footer class="branding">
         <small>&copy; 2020 <strong>CollectionOfItems</strong></small>
