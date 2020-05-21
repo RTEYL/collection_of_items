@@ -6,13 +6,37 @@ class UsersController < ApplicationController
   end
 
   # GET: /users/new
-  get "/users/new" do
-    erb :"/users/new.html"
+  get "/users/login" do
+    erb :"/users/login.html"
+  end
+
+  post '/users/login' do
+    user = User.find_by(:username => params[:username])
+     if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect "/users/#{@user.id}"
+    else
+      @errors = @user.errors.messages
+    end
+  end
+
+  get '/users/signup' do
+    erb :"/users/signup.html"
   end
 
   # POST: /users
-  post "/users" do
-    redirect "/users"
+  post "/users/signup" do
+    @user = User.new(username: params[:username],password: params[:password], description: params[:description]).valid?
+    if @user.save
+      redirect "/users/#{@user.id}"
+    else
+      @errors = @user.errors.messages
+    end
+  end
+
+  post '/users/signout' do
+    session.clear
+    redirect '/users'
   end
 
   # GET: /users/5
