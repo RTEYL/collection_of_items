@@ -17,7 +17,7 @@
   <div class="nav">
   <%if session[:user_id]%>
     <form action="/users/logout" method="post">
-      <input type="button" value="Log Out">
+      <input type="submit" name="logout" value="Log Out">
     </form>
   <%else%>
     <a href="/users/login">Login!</a>
