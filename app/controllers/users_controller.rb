@@ -2,7 +2,12 @@ class UsersController < ApplicationController
 
   # GET: /users
   get "/users" do
-    erb :"/users/index.html"
+    @session = session
+    if @session["user_id"]
+      redirect "/users/#{@session["user_id"]}"
+    else
+      erb :"/users/index.html"
+    end
   end
 
   # GET: /users/new
@@ -14,9 +19,9 @@ class UsersController < ApplicationController
     user = User.find_by(:username => params[:username])
      if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect "/users/#{@user.id}"
+      redirect "/users/#{user.id}"
     else
-      @errors = @user.errors.messages
+    "Invalid login credentials"
     end
   end
 
@@ -26,22 +31,23 @@ class UsersController < ApplicationController
 
   # POST: /users
   post "/users/signup" do
-    @user = User.new(username: params[:username],password: params[:password], description: params[:description]).valid?
-    if @user.save
-      redirect "/users/#{@user.id}"
+    user = User.new(username: params[:username], password: params[:password], password_confirmation: params[:password_confirmation], description: params[:description])
+    if user.valid?
+      user.save
+      redirect "/users/login"
     else
-      @errors = @user.errors.messages
+      "#{user.errors.messages}"
     end
-  end
-
-  post '/users/signout' do
-    session.clear
-    redirect '/users'
   end
 
   # GET: /users/5
   get "/users/:id" do
-    erb :"/users/show.html"
+    @user = User.find_by_id(params[:id])
+    if @user && @user == current_user
+      erb :"/users/show.html"
+    else
+      redirect '/users'
+    end
   end
 
   # GET: /users/5/edit
@@ -57,5 +63,20 @@ class UsersController < ApplicationController
   # DELETE: /users/5/delete
   delete "/users/:id/delete" do
     redirect "/users"
+  end
+
+  post '/users/logout' do
+    session.clear
+    redirect '/users'
+  end
+
+  helpers do
+    def logged_in?
+      !!session["user_id"]
+    end
+
+    def current_user
+      User.find(session["user_id"])
+    end
   end
 end
