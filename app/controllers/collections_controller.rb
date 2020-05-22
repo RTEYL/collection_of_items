@@ -24,8 +24,9 @@ class CollectionsController < ApplicationController
   post "/collections" do
     user = User.find(session["user_id"])
     params.delete_if{|p| p == "submit"}
-    params[:user_id] = user.id
-    Collection.create(params)
+    col = Collection.new(params)
+    col.user = user
+    col.save
     redirect "/users/#{user.id}"
   end
 

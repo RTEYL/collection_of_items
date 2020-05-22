@@ -6,7 +6,8 @@
 
   <ul>My Collections
     <%@user.collections.each do |col|%>
-    <li><%=col.name%>: <%=col.description%></li>
+
+    <li><a href="/collections/<%=col.id%>"><%=col.name%>:</a> <%=col.description%></li>
     <%end%>
   </ul>
 

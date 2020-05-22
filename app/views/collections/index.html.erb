@@ -2,7 +2,11 @@
 <ul>
   <%Collection.all.each do |col|%>
   <li>
-    <%=col%>
+    <%=col.name%>
+    <li>
+      <%=col.description%>
+      <p>Created by: <%=User.find(col.user_id).username%></p>
+    </li>
   </li>
   <%end%>
 </ul>
