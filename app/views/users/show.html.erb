@@ -1,2 +1,18 @@
 <h1><%=@user.username.capitalize%>'s Homepage</h1>
-<p><a href="/users/edit">Click here</a> to edit your profile info</p>
+
+<br>
+
+  <p>About me: <%=@user.description%></p>
+
+  <ul>My Collections
+    <%@user.collections.each do |col|%>
+    <li><%=col.name%>: <%=col.description%></li>
+    <%end%>
+  </ul>
+
+<br>
+<br>
+
+<p><a href="/users/<%=@user.id%>/edit">Click here</a> to edit your profile info</p>
+
+<p><a href="/collections/new">Click here</a> to create a new collection</p>
