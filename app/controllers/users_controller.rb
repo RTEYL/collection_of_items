@@ -63,12 +63,24 @@ class UsersController < ApplicationController
 
   # GET: /users/5/edit
   get "/users/:id/edit" do
-    erb :"/users/edit.html"
+    @user = User.find_by_id(params[:id])
+    if @user == current_user
+      erb :"/users/edit.html"
+    else
+      redirect '/users'
+    end
   end
 
   # PATCH: /users/5
   patch "/users/:id" do
-    redirect "/users/:id"
+    user = User.find_by_id(params[:id])
+    user.update(username: params[:username], password: params[:password], password_confirmation: params[:password_confirmation], description: params[:description])
+    if user.valid?
+      user.save
+      redirect to "/users/#{params[:id]}"
+    else
+      flash[:message] = user.errors.messages
+    end
   end
 
   # DELETE: /users/5/delete
