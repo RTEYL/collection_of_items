@@ -12,7 +12,7 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
-    erb :"/users/index.html"
+    erb :"index.html"
   end
 
   helpers do
