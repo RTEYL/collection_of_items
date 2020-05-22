@@ -7,7 +7,6 @@ end
 use Rack::MethodOverride
 set :method_override, true
 
-use ItemsController
 use CollectionsController
 use UsersController
 run ApplicationController
