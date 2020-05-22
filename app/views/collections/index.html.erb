@@ -1,1 +1,8 @@
-<h1>This is the Model's index page.</h1>
+<h1>Take a look at some of the other collections our users have created</h1>
+<ul>
+  <%Collection.all.each do |col|%>
+  <li>
+    <%=col%>
+  </li>
+  <%end%>
+</ul>
