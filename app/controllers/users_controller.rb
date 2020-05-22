@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     if @session["user_id"]
       redirect "/users/#{@session["user_id"]}"
     else
-      erb :"/users/index.html"
+      redirect '/users/login'
     end
   end
 
@@ -75,18 +75,20 @@ class UsersController < ApplicationController
   patch "/users/:id" do
     user = User.find_by_id(params[:id])
     user.update(username: params[:username], password: params[:password], password_confirmation: params[:password_confirmation], description: params[:description])
-    if user.valid?
+    if params[:password]
+      user.authenticate(params[:password])
+      flash.now[:message] = "Invald password" if !user.valid?
       user.save
-      redirect to "/users/#{params[:id]}"
     else
-      flash[:message] = user.errors.messages
+      redirect to "/users/#{params[:id]}"
     end
   end
 
   # DELETE: /users/5/delete
   delete "/users/:id/delete" do
-    redirect "/users"
-  end
+    User.delete(params[:id])
+      redirect "/users/login"
+    end
 
   post '/users/logout' do
     session.clear
