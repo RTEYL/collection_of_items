@@ -1,17 +1,26 @@
 <h1>Welcome! fill out the form below to sign up!</h1>
 <div>
-  <form action="/users/signup" method="post">
-    <label for="username">Username: </label>
-    <input type="text" name="username" id="username">
-
-    <label for="password">Password: </label>
-    <input type="password" name="password" id="password">
-
-    <label for="password_confirmation">Confirm password</label>
-    <input type="password" name="password_confirmation" id="password_confirmation">
-
-    <label for="description">Tell us a little bit about you!</label>
-    <input type="text" name="description" id="description">
-    <input type="submit"  name="submit" value="submit">
-  </form>
+  <ul>
+    <form action="/users/signup" method="post">
+    <li>
+      <label for="username">Username: </label>
+      <input type="text" name="username" id="username">
+    </li>
+    <li>
+      <label for="password">Password: </label>
+      <input type="password" name="password" id="password">
+    </li>
+    <li>
+      <label for="password_confirmation">Confirm password</label>
+      <input type="password" name="password_confirmation" id="password_confirmation">
+    </li>
+    <li>
+      <label for="description">Tell us a little bit about you!</label>
+      <input type="text" name="description" id="description">
+    </li>
+    <li>
+      <input type="submit"  name="submit" value="submit">
+    </li>
+    </form>
+  </ul>
 </div>
