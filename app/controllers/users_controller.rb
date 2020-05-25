@@ -79,15 +79,15 @@ class UsersController < ApplicationController
       user.authenticate(params[:password])
       flash.now[:message] = "Invald password" if !user.valid?
       user.save
-    else
-      redirect to "/users/#{params[:id]}"
     end
+    redirect to "/users/#{params[:id]}"
   end
 
   # DELETE: /users/5/delete
   delete "/users/:id/delete" do
     User.delete(params[:id])
-      redirect "/users/login"
+    session.clear
+    erb :'index.html'
     end
 
   post '/users/logout' do
