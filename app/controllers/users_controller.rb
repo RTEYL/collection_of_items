@@ -53,20 +53,22 @@ class UsersController < ApplicationController
 
   # GET: /users/5
   get "/users/:id" do
-    @user = User.find_by_id(params[:id])
-    if @user && @user == current_user
+    if accessible?
+      @user = User.find_by_id(params[:id])
       erb :"/users/show.html"
     else
+      flash[:message] = 'You must be logged in to use that feature'
       redirect '/users'
     end
   end
 
   # GET: /users/5/edit
   get "/users/:id/edit" do
-    @user = User.find_by_id(params[:id])
-    if @user == current_user
+    if accessible?
+     @user = User.find_by_id(params[:id])
       erb :"/users/edit.html"
     else
+      flash[:message] = 'You must be logged in to use that feature'
       redirect '/users'
     end
   end

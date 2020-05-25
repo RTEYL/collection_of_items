@@ -12,7 +12,7 @@ class CollectionsController < ApplicationController
 
   # GET: /collections/new
   get "/collections/new" do
-    if logged_in? && current_user
+    if accessible?
       erb :"/collections/new.html"
     else
       flash[:message] = 'You must be logged in to use that feature'
@@ -32,7 +32,7 @@ class CollectionsController < ApplicationController
 
   # GET: /collections/5
   get "/collections/:id" do
-    if logged_in? && current_user
+    if accessible?
       erb :"/collections/show.html"
     else
       flash[:message] = 'You must be logged in to use that feature'
@@ -42,7 +42,7 @@ class CollectionsController < ApplicationController
 
   # GET: /collections/5/edit
   get "/collections/:id/edit" do
-    if logged_in? && current_user
+    if accessible?
       erb :"/collections/edit.html"
     else
       flash[:message] = 'You must be logged in to use that feature'
