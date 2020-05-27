@@ -76,11 +76,11 @@ class UsersController < ApplicationController
   # PATCH: /users/5
   patch "/users/:id" do
     user = User.find_by_id(params[:id])
-    user.update(username: params[:username], password: params[:password], password_confirmation: params[:password_confirmation], description: params[:description])
-    if params[:password]
-      user.authenticate(params[:password])
-      flash.now[:message] = "Invald password" if !user.valid?
+    user.update(username: params[:username], description: params[:description])
+    if user.valid?
       user.save
+    else
+      flash.now[:message] = "Invald password"
     end
     redirect to "/users/#{params[:id]}"
   end

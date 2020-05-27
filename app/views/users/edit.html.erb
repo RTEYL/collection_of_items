@@ -5,15 +5,9 @@
 <div>
   <form action="/users/<%=@user.id%>" method="post">
   <input id='hidden' type='hidden' name='_method' value='PATCH'>
-    <label for="username">Username: </label>
+    <label for="username">Change Username: </label>
     <input type="text" name="username" id="username" value="<%=@user.username%>">
-
-    <label for="password">New Password: </label>
-    <input type="password" name="password" id="password">
-
-    <label for="password_confirmation">Confirm New Password: </label>
-    <input type="password" name="password_confirmation" id="password_confirmation">
-
+<br><br>
     <label for="description">Tell us something different about yourself: </label>
     <input type="text" name="description" id="description" value="<%=@user.description%>">
     <input type="submit"  name="submit" value="submit">
