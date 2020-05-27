@@ -27,12 +27,22 @@ class CollectionsController < ApplicationController
     col = Collection.new(name: params[:collection][:name], description: params[:collection][:description])
     params["collection"]["items"].each do |item|
       new_item = Item.new(name: item["name"], condition: item["condition"], img_url: item["img_url"])
-      new_item.collection = col if new_item.valid?
-      col.items << new_item
-      new_item.save
+      if new_item.valid?
+        new_item.collection = col
+        col.items << new_item
+        new_item.save
+      else
+        flash[:message] = "Invalid Image Url"
+        redirect "/collections/new"
+      end
     end
-    col.user = user
-    col.save
+    if col.valid?
+      col.user = user
+      col.save
+    else
+      flash[:message] = col.errors.messages
+      redirect "/collections/new"
+    end
     redirect "/users/#{user.id}"
   end
 
