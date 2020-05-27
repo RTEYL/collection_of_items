@@ -27,7 +27,7 @@ class CollectionsController < ApplicationController
     col = Collection.new(name: params[:collection][:name], description: params[:collection][:description])
     params["collection"]["items"].each do |item|
       new_item = Item.new(name: item["name"], condition: item["condition"], img_url: item["img_url"])
-      new_item.collection = col
+      new_item.collection = col if new_item.valid?
       col.items << new_item
       new_item.save
     end
