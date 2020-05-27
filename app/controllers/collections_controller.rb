@@ -24,7 +24,13 @@ class CollectionsController < ApplicationController
   post "/collections" do
     user = User.find(session["user_id"])
     params.delete_if{|p| p == "submit"}
-    col = Collection.new(params)
+    col = Collection.new(name: params[:collection][:name], description: params[:collection][:description])
+    params["collection"]["items"].each do |item|
+      new_item = Item.new(name: item["name"], condition: item["condition"], img_url: item["img_url"])
+      new_item.collection = col
+      col.items << new_item
+      new_item.save
+    end
     col.user = user
     col.save
     redirect "/users/#{user.id}"
@@ -33,6 +39,9 @@ class CollectionsController < ApplicationController
   # GET: /collections/5
   get "/collections/:id" do
     if accessible?
+      @collection = Collection.find(params[:id])
+      @items = @collection.items
+      @user = @collection.user
       erb :"/collections/show.html"
     else
       flash[:message] = 'You must be logged in to use that feature'
