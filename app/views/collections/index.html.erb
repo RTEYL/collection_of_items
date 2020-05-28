@@ -1,12 +1,25 @@
-<h1>Take a look at some of the other collections our users have created</h1>
-<ul>
-  <%Collection.all.each do |col|%>
-  <li>
-    <%=col.name%>
-    <li>
-      <%=col.description%>
-      <p>Created by: <%=User.find(col.user_id).username%></p>
-    </li>
-  </li>
-  <%end%>
-</ul>
+<h3>Take a look at some of the other collections our users have created</h3>
+  <%@users.each do |user|%>
+    <p>Created by: <%=user.username.capitalize%></p>
+    <table>
+      <%user.collections.each do |col| %>
+        <% col.attributes.except("id", "user_id", "created_at", "updated_at").each do |k,v| %>
+        <tr>
+          <th><%=k%>: <%=v%></th>
+        </tr>
+        <% end %>
+      <% end %>
+      <%user.collections.each do |col| %>
+        <% col.items.each do |item| %>
+          <%item.attributes.except("id", "collection_id", "created_at", "updated_at", "img_url").each do |k,v| %>
+          <tr>
+            <th><%=k%>: <%=v%></th>
+          </tr>
+          <% end %>
+          <tr>
+            <td><img src="<%=item.img_url%>" alt="Error Loading Image"></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  <% end %>

@@ -3,6 +3,7 @@ class CollectionsController < ApplicationController
   # GET: /collections
   get "/collections" do
     if logged_in?
+      @users = User.all
       erb :"/collections/index.html"
     else
       flash[:message] = 'You must be logged in to use that feature'
@@ -26,7 +27,7 @@ class CollectionsController < ApplicationController
     params.delete_if{|p| p == "submit"}
     col = Collection.new(name: params[:collection][:name], description: params[:collection][:description])
     params["collection"]["items"].each do |item|
-      new_item = Item.new(name: item["name"], condition: item["condition"], img_url: item["img_url"])
+      new_item = Item.new(name: item["name"], condition: item["condition"], img_url: item["img_url"]) if item["name"] != ""
       if new_item.valid?
         new_item.collection = col
         col.items << new_item
