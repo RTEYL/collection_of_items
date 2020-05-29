@@ -1,11 +1,12 @@
 <h1><%=@user.username.capitalize%>'s <%=@collection.name%> Collection!</h1>
-  <h3><%=@collection.description%></h3>
-<ul>
+  <em><%=@collection.description%></em>
+<ol>
   <%@items.each do |item|%>
     <li>
-      <h5><%=item.name%></h5><br>
-      <p>Condition: <%=item.condition%></p>
-      <img src="<%=item.img_url%>" alt="Error Loading Image">
+      <h5>Item: <%=item.name%></h5><br>
+      <h6>Condition: <%=item.condition%></h6>
+      <img src="<%=item.img_url%>" width="260" height="190" alt="Error Loading Image">
     </li><br><br>
   <%end%>
-</ul>
+</ol>
+<a href="/collections/<%=@collection.id%>/edit">edit this collection</a>
