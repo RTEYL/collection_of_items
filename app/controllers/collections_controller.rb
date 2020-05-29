@@ -99,6 +99,7 @@ class CollectionsController < ApplicationController
 
   # DELETE: /collections/5/delete
   delete "/collections/:id/delete" do
+    Collection.delete(params[:id])
     redirect "/collections"
   end
 end

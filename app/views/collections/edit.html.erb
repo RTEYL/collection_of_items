@@ -32,4 +32,8 @@
 </ul>
     <input type="submit" name="submit" value="Update!">
   </form>
+  <form action="/collections/<%=@collection.id%>" method="post">
+    <input id='hidden' type='hidden' name='_method' value='delete'>
+      <input type="submit" value="Delete This Collection">
+  </form>
 </div>
