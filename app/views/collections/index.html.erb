@@ -2,23 +2,25 @@
   <%@users.each do |user|%>
     <p>Created by: <%=user.username.capitalize%></p>
     <table>
-      <%user.collections.each do |col| %>
-        <% col.attributes.except("id", "user_id", "created_at", "updated_at").each do |k,v| %>
-        <tr>
-          <th><%=k%>: <%=v%></th>
-        </tr>
-        <% end %>
-      <% end %>
-      <%user.collections.each do |col| %>
-        <% col.items.each do |item| %>
-          <%item.attributes.except("id", "collection_id", "created_at", "updated_at", "img_url").each do |k,v| %>
+      <%if !user.collections.empty?
+        <%user.collections.each do |col| %>
+          <% col.attributes.except("id", "user_id", "created_at", "updated_at").each do |k,v| %>
           <tr>
             <th><%=k%>: <%=v%></th>
           </tr>
           <% end %>
-          <tr>
-            <td><img src="<%=item.img_url%>" width="260" height="190" alt="Error Loading Image"></td>
-          </tr>
+        <% end %>
+        <%user.collections.each do |col| %>
+          <% col.items.each do |item| %>
+            <%item.attributes.except("id", "collection_id", "created_at", "updated_at", "img_url").each do |k,v| %>
+            <tr>
+              <th><%=k%>: <%=v%></th>
+            </tr>
+            <% end %>
+            <tr>
+              <td><img src="<%=item.img_url%>" width="260" height="190" alt="Error Loading Image"></td>
+            </tr>
+          <% end %>
         <% end %>
       <% end %>
     </table>
