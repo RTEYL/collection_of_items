@@ -13,7 +13,7 @@ class CollectionsController < ApplicationController
 
   # GET: /collections/new
   get "/collections/new" do
-    if accessible?
+    if logged_in?
       erb :"/collections/new.html"
     else
       flash[:message] = 'You must be logged in to use that feature'
@@ -23,37 +23,30 @@ class CollectionsController < ApplicationController
 
   # POST: /collections
   post "/collections" do
-    user = User.find(session["user_id"])
     params.delete_if{|p| p == "submit"}
-    col = Collection.new(name: params[:collection][:name], description: params[:collection][:description])
+    @col = current_user.collections.build(name: params[:collection][:name], description: params[:collection][:description])
     params["collection"]["items"].each do |item|
       if item["name"] != ""
-        new_item = Item.new(name: item["name"], condition: item["condition"], img_url: item["img_url"])
-        if new_item.valid?
-          new_item.collection = col
-          new_item.save
-          col.items << new_item
+        new_item col.items.build(name: item["name"], condition: item["condition"], img_url: item["img_url"])
+        if new_item.save
         else
           flash[:message] = "Invalid Image Url"
           redirect "/collections/new"
         end
       end
     end
-    if col.valid?
-      col.user = user
-      col.save
+    if col.save
     else
-      flash[:message] = col.errors.messages
-      redirect "/collections/new"
+      erb :"/collections/new.html"
     end
     redirect "/users/#{user.id}"
   end
 
   # GET: /collections/5
   get "/collections/:id" do
-    if accessible?
 
-      @collection = Collection.find(params[:id])
+    @collection = Collection.find(params[:id])
+    if accessible?(@collection)
       @items = @collection.items
       @user = @collection.user
       erb :"/collections/show.html"
@@ -65,8 +58,8 @@ class CollectionsController < ApplicationController
 
   # GET: /collections/5/edit
   get "/collections/:id/edit" do
-    if accessible?
-      @collection = Collection.find_by_id(params[:id])
+    @collection = Collection.find_by_id(params[:id])
+    if accessible?(@collection)
       erb :"/collections/edit.html"
     else
       flash[:message] = 'You must be logged in to use that feature'

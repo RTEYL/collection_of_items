@@ -53,8 +53,9 @@ class UsersController < ApplicationController
 
   # GET: /users/5
   get "/users/:id" do
-    if accessible?
+    if current_user
       @user = User.find_by_id(params[:id])
+      @collections = @user.collections
       erb :"/users/show.html"
     else
       flash[:message] = 'You must be logged in to use that feature'
@@ -94,6 +95,7 @@ class UsersController < ApplicationController
 
   post '/users/logout' do
     session.clear
+    flash.now[:message] = "Account Deleted -_-"
     redirect '/users'
   end
 end

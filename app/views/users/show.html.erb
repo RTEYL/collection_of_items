@@ -6,7 +6,7 @@
   </div>
 <br>
   <ul><h3>My Collections:</h3>
-    <%@user.collections.each do |col|%>
+    <%@collections.each do |col|%>
 
     <li><a href="/collections/<%=col.id%>"><%=col.name%>:</a> <%=col.description%></li>
     <%end%>

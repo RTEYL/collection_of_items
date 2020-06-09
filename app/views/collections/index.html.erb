@@ -2,7 +2,7 @@
   <%@users.each do |user|%>
     <p>Created by: <%=user.username.capitalize%></p>
     <table>
-      <%if !user.collections.empty?
+      <%if !user.collections.empty?%>
         <%user.collections.each do |col| %>
           <% col.attributes.except("id", "user_id", "created_at", "updated_at").each do |k,v| %>
           <tr>
